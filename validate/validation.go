@@ -7,6 +7,10 @@ import (
 
 type Errors map[string][]string
 
+func (e Errors) Add(field string, msg string) {
+	AddError(field, e, msg)
+}
+
 var EmailRx = regexp.MustCompile(`^\S+@\S+$`)
 
 type Lengthable[Q any, U comparable] interface {
@@ -41,6 +45,18 @@ func IsStringLength(
 
 	if len(v) < m || len(v) > n {
 		AddError(field, errors, msg)
+	}
+}
+
+// IsStringMinLength Checks that a string is at least the listed size.
+func IsStringMinLength(
+	field string,
+	errors Errors,
+	v string,
+	m int,
+) {
+	if len(v) < m {
+		AddError(field, errors, fmt.Sprintf("Must be at least %d characters long", m))
 	}
 }
 
