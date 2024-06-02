@@ -82,6 +82,16 @@ func IsNumberBetween[T NumericComparable](
 	}
 }
 
+func IsNotEmpty(
+  field string,
+  errors Errors,
+  v string,
+) {
+  if len(v) == 0 {
+    AddError(field, errors, "Must not be empty")
+  }
+}
+
 // Size checks that an array or map has either exactly m == n entries, or
 // between m and n entries (inclusive)
 func IsSize[T Lengthable[Q, U], Q any, U comparable](
